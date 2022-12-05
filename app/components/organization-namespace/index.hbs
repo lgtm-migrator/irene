@@ -1,0 +1,66 @@
+{{! template-lint-disable no-partial }}
+{{#if this.hasObjects}}
+  <AkTable as |t|>
+    <t.head @columns={{this.columns}} />
+    <t.body @rows={{this.sortedObjects}} as |b|>
+      <b.row as |r|>
+        <r.cell>
+          {{#let (component r.columnValue.component) as |Component|}}
+            <Component
+              @onRejectNamespace={{perform this.rejectNamespaceConfirm}}
+              @namespace={{r.rowValue}}
+            />
+          {{/let}}
+        </r.cell>
+      </b.row>
+    </t.body>
+  </AkTable>
+
+  <div class='margin-top20'>
+    {{partial 'paginate'}}
+  </div>
+
+  {{#if this.showRejectNamespaceConfirm}}
+    <AkModal
+      @showHeader={{true}}
+      @headerTitle={{t 'confirm'}}
+      @disableClose={{this.confirmReject.isRunning}}
+      @onClose={{perform this.rejectNamespaceCancel}}
+    >
+      <div class='flex-column flex-align-center flex-justify-center'>
+        <AkTypography data-test-confirmbox-rejectConfirmText>
+          {{t 'confirmBox.rejectNamespace'}}
+        </AkTypography>
+
+        <div class='flex-row flex-align-center flex-justify-center mt-3'>
+          <AkButton
+            data-test-confirmbox-rejectConfirm
+            @onClick={{perform this.confirmReject}}
+          >
+            OK
+          </AkButton>
+
+          <AkButton
+            data-test-confirmbox-rejectCancel
+            @class='ml-2'
+            @variant='outlined'
+            @color='neutral'
+            @onClick={{perform this.rejectNamespaceCancel}}
+          >
+            Cancel
+          </AkButton>
+        </div>
+      </div>
+    </AkModal>
+  {{/if}}
+{{else}}
+  <div class='empty-state'>
+    {{#if this.hasNoObject}}
+      {{fa-icon 'exclamation-triangle'}}
+      {{if this.me.org.is_admin (t 'noNamespace') (t 'noNamespaceRequested')}}
+    {{else}}
+      {{fa-icon 'spinner spin'}}
+      {{t 'loading'}}...
+    {{/if}}
+  </div>
+{{/if}}

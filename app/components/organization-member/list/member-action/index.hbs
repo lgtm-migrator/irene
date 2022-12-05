@@ -1,0 +1,69 @@
+<AkIconButton {{on 'click' this.handleMoreBtnClicked}} @variant='outlined'>
+  <AkIcon @iconName='more-vert' />
+</AkIconButton>
+
+<AkMenu
+  @anchorRef={{this.moreBtnAnchorRef}}
+  @onClose={{this.handleMoreBtnMenuClose}}
+  @arrow={{true}}
+  as |dd|
+>
+  <dd.listItem @onClick={{this.editMemberSetting}}>
+    <AkTypography>
+      {{if @member.member.isActive (t 'deactivateUser') (t 'activateUser')}}
+    </AkTypography>
+  </dd.listItem>
+</AkMenu>
+
+{{#if this.showEditModal}}
+  <AkModal
+    @showHeader={{true}}
+    @headerTitle={{this.modaltitle}}
+    @disableClose={{this.changeSetting.isRunning}}
+    @onClose={{this.closeModal}}
+  >
+    <div class='flex-column flex-align-center flex-justify-center'>
+      <AkTypography data-test-confirmbox-rejectConfirmText>
+        {{t 'userActivationChangeMessage'}}
+
+        <strong>{{@member.member.username}}</strong>
+
+        {{if @member.member.isActive (t 'inactive') (t 'active')}}
+        ?
+      </AkTypography>
+
+      <div class='flex-row flex-align-center flex-justify-center mt-3'>
+        <AkButton
+          data-test-confirmbox-rejectConfirm
+          @onClick={{perform this.changeSetting}}
+          @disabled={{this.changeSetting.isRunning}}
+        >
+          <:leftIcon>
+            {{#if this.changeSetting.isRunning}}
+              <div class='fa-font-size'>
+                <i class='fa fa-spinner fa-spin'></i>
+              </div>
+            {{/if}}
+          </:leftIcon>
+
+          <:default>
+            Confirm
+          </:default>
+
+          <:rightIcon></:rightIcon>
+        </AkButton>
+
+        <AkButton
+          data-test-confirmbox-rejectCancel
+          @class='ml-2'
+          @variant='outlined'
+          @color='neutral'
+          @onClick={{this.closeModal}}
+          @disabled={{this.changeSetting.isRunning}}
+        >
+          {{t 'cancel'}}
+        </AkButton>
+      </div>
+    </div>
+  </AkModal>
+{{/if}}

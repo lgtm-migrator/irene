@@ -1,0 +1,11 @@
+<AkTypography @tag='span'>
+  {{@member.member.username}}
+</AkTypography>
+
+{{#if (eq @member.member.isActive false)}}
+  <div class='display-inline-block'>
+    <span class='vertical-align-center' local-class='filetag'>
+      {{t 'inactiveCaptital'}}
+    </span>
+  </div>
+{{/if}}

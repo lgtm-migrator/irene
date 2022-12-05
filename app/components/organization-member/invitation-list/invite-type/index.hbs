@@ -1,0 +1,17 @@
+{{#if @invitation.team}}
+  <AkTypography @tag='span' @color='textSecondary'>
+    {{t 'team'}}
+  </AkTypography>
+
+  <AkLink
+    @color='primary'
+    @route='authenticated.organization.team'
+    @model={{@invitation.team.id}}
+  >
+    {{@invitation.team.name}}
+  </AkLink>
+{{else}}
+  <AkTypography @tag='span' @color='textSecondary'>
+    {{t 'organization'}}
+  </AkTypography>
+{{/if}}

@@ -1,7 +1,41 @@
-<p data-test-organization-email='sub-desc'>
-  {{t 'emailRestrictDesc'}}
-</p>
-<div local-class='org-email-domain' {{did-insert this.initializeComp}}>
+<div local-class='org-email-domain'>
+  <AkTypography @variant='h5' @gutterBottom={{true}}>
+    {{t 'emailDomainRestriction'}}
+  </AkTypography>
+
+  <AkTypography
+    @gutterBottom={{true}}
+    @variant='body2'
+    @color='textSecondary'
+    data-test-organization-email='sub-desc'
+  >
+    {{t 'emailRestrictDesc'}}
+  </AkTypography>
+
+  {{#if @isEditable}}
+    <div
+      class='flex-row flex-align-end w-9/12 mt-3'
+      data-test-organization-email='input-container'
+    >
+      <AkTextField
+        @label='Added email domains'
+        @labelTypographyColor='textPrimary'
+        @labelTypographyVariant='subtitle1'
+        @value={{this.tDomain}}
+        @placeholder='example.com'
+        aria-label='domain input'
+        data-test-organization-email='input'
+      />
+
+      <AkButton
+        {{on 'click' this.saveDomainInput}}
+        @disabled={{this.isDisableSave}}
+        @class='mx-2'
+        data-test-organization-email='save-btn'
+      >{{t 'addDomain'}}</AkButton>
+    </div>
+  {{/if}}
+
   <ul local-class='domain-list' data-test-organization-email='domain-list'>
     {{#each this.domains as |domain seq|}}
       <li
@@ -29,29 +63,4 @@
       </li>
     {{/each}}
   </ul>
-  {{#if @isEditable}}
-    <div
-      local-class='domain-input-item'
-      class='input-wrap vertical-align-center margin-b-0'
-      data-test-organization-email='input-container'
-    >
-      <Input
-        local-class='domain-input'
-        class='input-field'
-        @type='text'
-        @value={{this.tDomain}}
-        placeholder='example.com'
-        aria-label='domain input'
-        data-test-organization-email='input'
-      />
-      <button
-        type='button'
-        class='button is-primary highlighted-button'
-        local-class='save-btn'
-        {{on 'click' this.saveDomainInput}}
-        disabled={{if this.isDisableSave 'disabled'}}
-        data-test-organization-email='save-btn'
-      >{{t 'addDomain'}}</button>
-    </div>
-  {{/if}}
 </div>

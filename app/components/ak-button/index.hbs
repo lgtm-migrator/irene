@@ -1,0 +1,26 @@
+<button
+  data-test-ak-button
+  ...attributes
+  type={{or @type 'button'}}
+  disabled={{@disabled}}
+  title='{{@title}}'
+  class={{@class}}
+  local-class='
+  ak-button-root 
+  ak-button-{{this.variant}}-{{this.color}}'
+  {{on 'click' (or @onClick this.noop)}}
+>
+  {{#if (has-block 'leftIcon')}}
+    <div local-class='ak-button-left-icon'>
+      {{yield to='leftIcon'}}
+    </div>
+  {{/if}}
+
+  {{yield}}
+
+  {{#if (has-block 'rightIcon')}}
+    <div local-class='ak-button-right-icon'>
+      {{yield to='rightIcon'}}
+    </div>
+  {{/if}}
+</button>

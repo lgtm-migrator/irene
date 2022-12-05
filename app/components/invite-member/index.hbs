@@ -1,0 +1,84 @@
+<AkButton @onClick={{perform this.openInviteMemberModal}}>
+  <:leftIcon>
+    <i class='fa fa-envelope'></i>
+  </:leftIcon>
+
+  <:default>{{t 'inviteUsers'}}</:default>
+</AkButton>
+
+{{#if this.showInviteMemberModal}}
+  <AkModal
+    @showHeader={{true}}
+    @headerTitle={{t 'inviteUsers'}}
+    @disableClose={{this.isInvitingMember}}
+    @onClose={{perform this.closeModal}}
+  >
+    <AkTextField
+      @label='Email (for multiple entries, separate by comma)'
+      @placeholder={{t 'email'}}
+      @value={{this.emailsFromText}}
+      @autofocus={{this.autofocus}}
+    />
+
+    <div class='mt-2'>
+      <AkButton
+        data-test-confirmbox-rejectConfirm
+        @onClick={{perform this.inviteMembers}}
+        @disabled={{this.isInvitingMember}}
+      >
+        <:leftIcon>
+          {{#if this.isInvitingMember}}
+            <div class='fa-font-size'>
+              <i class='fa fa-spinner fa-spin'></i>
+            </div>
+          {{/if}}
+        </:leftIcon>
+
+        <:default>
+          {{t 'invite'}}
+        </:default>
+
+        <:rightIcon></:rightIcon>
+      </AkButton>
+    </div>
+  </AkModal>
+{{/if}}
+
+{{!-- <ModalCard
+  class='input-modal'
+  @isActive={{this.showInviteMemberModal}}
+  @title={{t 'inviteUsers'}}
+>
+  <div class='card-body'>
+    <div class='card-wrapper'>
+      <form {{on 'submit' (perform this.inviteMembers)}}>
+        <span class='black-text margin-b-h margin-t-1 bold'>
+          Email
+        </span>
+        <small class='text-lightgray'>
+          (for multiple entries, separate by comma)
+        </small>
+
+        <br />
+
+        <Textarea
+          id='emails-textarea'
+          class='form-control input margin-t-q'
+          placeholder={{t 'email'}}
+          @value={{this.emailsFromText}}
+          autofocus={{this.autofocus}}
+        />
+
+        <AkButton>
+          {{#if this.isInvitingMember}}
+            <div class='fa-font-size'>
+              <i class='fa fa-spinner fa-spin'></i>
+            </div>
+          {{/if}}
+
+          {{t 'invite'}}
+        </AkButton>
+      </form>
+    </div>
+  </div>
+</ModalCard> --}}
